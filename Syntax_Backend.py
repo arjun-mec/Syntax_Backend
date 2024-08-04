@@ -24,7 +24,7 @@ app.add_middleware(
 df = pd.read_csv("ML_data.csv")
 
 
-async def predict_category_score(df_filtered, category, future_year, predictions):
+def predict_category_score(df_filtered, category, future_year, predictions):
     try:
         df_category = df_filtered[df_filtered["Category"] == category].copy()
 
@@ -37,9 +37,10 @@ async def predict_category_score(df_filtered, category, future_year, predictions
         if forecast["yhat"].values[0] > 100:
             predictions[category] = 100
         else:
-            predictions[category] = (forecast["yhat"].values[0]).round(2)
+            predictions[category] = int((forecast["yhat"].values[0]).round(2))
 
     except Exception as e:
+        print("Error in predict_category_score")
         predictions[category] = 0
         print(e)
 
@@ -63,10 +64,12 @@ async def main(data: RequestData):
             "GP",
         ]
 
+        overall = 0
         for category in target_categories:
             predict_category_score(df_filtered, category, year, predictions)
+            overall += predictions[category]
 
-        predictions["Overall"] = (sum(predictions.values())).round(2)
+        predictions["Overall"] = overall
 
         return predictions
     except Exception as e:
@@ -77,4 +80,4 @@ async def main(data: RequestData):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app="backend:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run(app="Syntax_Backend:app", host="127.0.0.1", port=8000, reload=True)
