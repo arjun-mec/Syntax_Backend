@@ -73,9 +73,7 @@ async def main(data: RequestData):
 
         predictions = {"State/UT": state, "District": district, "Year": year}
         predictions.update(predict_category_scores(df_filtered, year))
-        predictions["Overall"] = sum(
-            v for v in predictions.values() if isinstance(v, int)
-        )
+        predictions["Overall"] = (predictions["Outcome"] + predictions["DL"] + predictions["ECT"] + predictions["GP"] + predictions["IF"] + predictions["SS"])
 
         return predictions
 
