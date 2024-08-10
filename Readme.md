@@ -11,7 +11,7 @@ This FastAPI application predicts educational outcomes using time series forecas
 
 ### Getting Started:
 
-1. **Clone:** `git clone [https://github.com/your-username/your-repository.git](https://github.com/arjun-mec/Syntax_backend.git)`
+1. **Clone:** `git clone https://github.com/arjun-mec/Syntax_backend.git`
 2. **Virtual Environment (Recommended):**
    ```bash
    python3 -m venv env
